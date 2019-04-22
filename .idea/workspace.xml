@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="540999c8-9aaf-44cc-8c06-768a3341b5b8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/openwipy.py" beforeDir="false" afterPath="$PROJECT_DIR$/openwipy.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,14 +11,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48207173">
+    <splitter split-orientation="horizontal" split-proportion="0.47918436">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/openwipy.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="238">
-                  <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+                <state relative-caret-position="602">
+                  <caret line="89" column="36" lean-forward="true" selection-start-line="89" selection-start-column="36" selection-end-line="89" selection-end-column="36" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -45,14 +44,18 @@
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Specimen_0104.py">
-              <provider selected="true" editor-type-id="text-editor" />
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-1139">
+                  <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+                </state>
+              </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/testing.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="136">
-                  <caret line="8" column="87" selection-start-line="8" selection-start-column="87" selection-end-line="8" selection-end-column="87" />
+                <state relative-caret-position="204">
+                  <caret line="12" column="15" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
                   <folding>
                     <element signature="e#0#22#0" expanded="true" />
                   </folding>
@@ -77,9 +80,13 @@
       <find>class</find>
       <find>init</find>
       <find>datapath_str</find>
+      <find>col_voltage</find>
     </findStrings>
     <replaceStrings>
       <replace>data_path</replace>
+      <replace>time</replace>
+      <replace>current</replace>
+      <replace>voltage</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -94,6 +101,7 @@
         <option value="$PROJECT_DIR$/openwipy/wplot.py" />
         <option value="$PROJECT_DIR$/openwipy/wanalysis.py" />
         <option value="$PROJECT_DIR$/openwipy/wdata.py" />
+        <option value="$PROJECT_DIR$/Specimen_0104.py" />
         <option value="$PROJECT_DIR$/testing.py" />
         <option value="$PROJECT_DIR$/openwipy.py" />
       </list>
@@ -110,8 +118,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="680" />
-    <option name="width" value="1247" />
+    <option name="x" value="674" />
+    <option name="width" value="1253" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -242,15 +250,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="680" y="0" width="1247" height="1057" extended-state="0" />
+    <frame x="674" y="0" width="1253" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16956162" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16872428" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28494042" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16468039" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -270,9 +278,6 @@
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="-3672" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Specimen_0104.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/openwipy/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -300,10 +305,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Specimen_0104.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1139">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="87" selection-start-line="8" selection-start-column="87" selection-end-line="8" selection-end-column="87" />
+        <state relative-caret-position="204">
+          <caret line="12" column="15" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
@@ -312,8 +324,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/openwipy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="602">
+          <caret line="89" column="36" lean-forward="true" selection-start-line="89" selection-start-column="36" selection-end-line="89" selection-end-column="36" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
