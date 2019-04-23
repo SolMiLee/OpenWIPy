@@ -29,7 +29,7 @@ def start_end_time_data(data, start, end, col_time):
 
 
 # plot data, analysis data
-def plot_current_voltage(data, col_time, col_current, col_voltage):
+def plot_cur_vol(data, col_time, col_current, col_voltage):
     pass_time = data[col_time]
     pass_current = data[col_current]
     pass_voltage = data[col_voltage]
@@ -48,14 +48,14 @@ def plot_current_voltage(data, col_time, col_current, col_voltage):
     return plt.show()
 
 
-def plot_current_voltage_with_start_end_time(data, start, end, col_time, col_current, col_voltage, save_data=False):
+def plot_cur_vol_with_start_end_time(data, start, end, col_time, col_current, col_voltage, save_data=False):
     d, t = start_end_time_data(data, start, end, col_time)
     if save_data:
         data.to_csv('data.csv')
-    plot_current_voltage(d, col_time, col_current, col_voltage)
+    plot_cur_vol(d, col_time, col_current, col_voltage)
 
 
-def plot_current_voltage_distribution_map(data, col_time, col_current, col_voltage):
+def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     cur_mean = round(data[col_current].mean(), 4)
     vol_mean = round(data[col_voltage].mean(), 4)
     cur_std = round(data[col_current].std(), 4)
@@ -91,3 +91,6 @@ def plot_current_voltage_distribution_map(data, col_time, col_current, col_volta
     plt.grid(ls='--')
 
     return plt.show()
+
+def plot_cur_vol_distribution_map_with_per_line():
+    pass
