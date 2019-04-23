@@ -2,6 +2,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+# global variable
+CURRENT_MEAN = None
+VOLTAGE_MEAN = None
+CURRENT_STD = None
+VOLTAGE_STD = None
+POWER_MEAN = None
+RESISTANCE_MEAN = None
+
 
 # data modify
 def read_csv_weld_data(path=str, col_nm=None):
@@ -26,6 +34,37 @@ def start_end_time_data(data, start, end, col_time):
     data = data[cond]
 
     return data, total_time
+
+
+# calculate value
+def calc_power_value_to_percent(percent=float, power_mean=POWER_MEAN,
+                                cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
+                                vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD):
+    x = np.linspace(-10, 10, 400, dtype=float)
+    y = (1 - percent) * power_mean / (vol_std * (x * cur_std + cur_mean)) - vol_mean / vol_std
+    return y
+
+
+def calc_resistance_value_to_percent(percent=float, resistance_mean=RESISTANCE_MEAN,
+                                     cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
+                                     vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD):
+    x = np.linspace(-10, 10, 400, dtype=float)
+    y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
+    return y
+
+
+def calc_power_line(percent=float, power_mean=POWER_MEAN,
+                    cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
+                    vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
+    y = (1 - percent) * power_mean / (vol_std * (x * cur_std + cur_mean)) - vol_mean / vol_std
+    return y
+
+
+def clac_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
+                         cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
+                         vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
+    y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
+    return y
 
 
 # plot data, analysis data
@@ -63,6 +102,14 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     p_mean = round(cur_mean * vol_mean, 1)
     r_mean = round(vol_mean / cur_mean, 4)
 
+    global CURRENT_MEAN, VOLTAGE_MEAN, CURRENT_STD, VOLTAGE_STD, POWER_MEAN, RESISTANCE_MEAN
+    CURRENT_MEAN = cur_mean
+    VOLTAGE_MEAN = vol_mean
+    CURRENT_STD = cur_std
+    VOLTAGE_STD = vol_std
+    POWER_MEAN = p_mean
+    RESISTANCE_MEAN = r_mean
+
     watt = []
     resistance = []
     normalized_cur = []
@@ -81,8 +128,8 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
 
     plt.figure(figsize=(8, 8))
     plt.scatter(normalized_cur, normalized_vol, s=1, alpha=0.5)
-    plt.xlim(xmin=-10, xmax=10)
-    plt.ylim(ymin=-10, ymax=10)
+    plt.xlim(left=-10, right=10)
+    plt.ylim(bottom=-10, top=10)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=15)
     plt.title('Current-Voltage Distribution Map', fontsize=15)
@@ -91,6 +138,7 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     plt.grid(ls='--')
 
     return plt.show()
+
 
 def plot_cur_vol_distribution_map_with_per_line():
     pass
