@@ -60,7 +60,7 @@ def calc_power_line(percent=float, power_mean=POWER_MEAN,
     return y
 
 
-def clac_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
+def calc_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
                          cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
                          vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
     y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
@@ -140,5 +140,24 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     return plt.show()
 
 
-def plot_cur_vol_distribution_map_with_per_line():
-    pass
+def plot_cur_vol_distribution_map_with_per_line(data, percent, col_time, col_current, col_voltage):
+    plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage)
+
+    xr = np.linspace(-10, 10, 400, dtype=float)
+
+    power_y1 = calc_power_value_to_percent(-percent)
+    power_y2 = calc_power_value_to_percent(percent)
+    resistance_y1 = calc_resistance_value_to_percent(-percent)
+    resistance_y2 = calc_resistance_value_to_percent(percent)
+
+    power_line1, = plt.plot(xr, power_y1, 'k', linewidth=5)
+    power_line2, = plt.plot(xr, power_y2, 'k--', linewidth=5)
+    resistance_line1, = plt.plot(xr, resistance_y1, 'r', linewidth=5)
+    resistance_line2, = plt.plot(xr, resistance_y2, 'r--', linewidth=5)
+
+    plt.legend((power_line1, resistance_line1, power_line2, resistance_line2),
+               ('P1 %.1f' % (POWER_MEAN * (1 + percent)),
+                'R1 %.4f' % (RESISTANCE_MEAN * (1 + percent)),
+                'P2 %.1f' % (POWER_MEAN * (1 - percent)),
+                'R2 %.4f' % (RESISTANCE_MEAN * (1 - percent))),
+               fonsize=15, loc='lower right')
