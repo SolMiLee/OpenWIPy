@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="540999c8-9aaf-44cc-8c06-768a3341b5b8" name="Default Changelist" comment="">
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/OpenWIPy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/OpenWIPy.iml" afterDir="false" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/openwipy.py" beforeDir="false" afterPath="$PROJECT_DIR$/openwipy.py" afterDir="false" />
     </list>
@@ -12,14 +16,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.5510381">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/openwipy.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="236">
                   <caret line="239" lean-forward="true" selection-start-line="239" selection-end-line="239" />
+=======
+                <state relative-caret-position="396">
+                  <caret line="96" column="48" selection-start-line="96" selection-start-column="48" selection-end-line="96" selection-end-column="48" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -27,6 +36,7 @@
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
         </leaf>
       </split-first>
       <split-second>
@@ -38,14 +48,28 @@
                   <caret line="15" column="77" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
                   <folding>
                     <element signature="e#0#22#0" expanded="true" />
+=======
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$USER_HOME$/Documents/카카오톡 받은 파일/Untitled13.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="592">
+                  <caret line="65" column="24" lean-forward="true" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+                  <folding>
+                    <element signature="e#29#48#0" expanded="true" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Specimen_0104.py">
+            <entry file="file://$PROJECT_DIR$/test.py">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state relative-caret-position="221">
                   <caret line="269" column="17" lean-forward="true" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
                 </state>
@@ -57,6 +81,10 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="204">
                   <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+=======
+                <state relative-caret-position="224">
+                  <caret line="14" column="92" selection-start-line="14" selection-start-column="92" selection-end-line="14" selection-end-column="92" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
                 </state>
               </provider>
             </entry>
@@ -94,6 +122,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -105,10 +134,17 @@
         <option value="$PROJECT_DIR$/openwipy/wplot.py" />
         <option value="$PROJECT_DIR$/openwipy/wanalysis.py" />
         <option value="$PROJECT_DIR$/openwipy/wdata.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/testing.py" />
         <option value="$PROJECT_DIR$/Specimen_0104.py" />
+=======
+        <option value="$PROJECT_DIR$/Specimen_0104.py" />
+        <option value="$PROJECT_DIR$/testing.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
         <option value="$PROJECT_DIR$/openwipy.py" />
+        <option value="$USER_HOME$/Documents/카카오톡 받은 파일/Untitled13.py" />
       </list>
     </option>
   </component>
@@ -123,9 +159,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1282" />
+    <option name="x" value="431" />
+    <option name="y" value="-11" />
+    <option name="width" value="1420" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -163,7 +199,8 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
+    <property name="last_opened_file_path" value="C:/Program Files/Git/cmd/git.exe" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -183,28 +220,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.testing">
-    <configuration name="oepnwipy" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="OpenWIPy" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Prjt\OpenWIPy\openwipy.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.test">
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="OpenWIPy" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -247,16 +263,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.oepnwipy" />
-      <item itemvalue="Python.test" />
-      <item itemvalue="Python.testing" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.testing" />
-        <item itemvalue="Python.oepnwipy" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.testing" />
       </list>
     </recent_temporary>
   </component>
@@ -286,12 +296,20 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10906217" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11959958" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run" order="2" weight="0.16309012" />
+=======
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.13304721" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -328,9 +346,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py" />
-    <entry file="file://$PROJECT_DIR$/testing.py">
+    <entry file="file://$PROJECT_DIR$/testing.py" />
+    <entry file="file://$PROJECT_DIR$/Specimen_0104.py" />
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="238">
           <caret line="15" column="77" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
           <folding>
@@ -343,22 +363,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Specimen_0104.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="269" column="17" lean-forward="true" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
+=======
+        <state relative-caret-position="224">
+          <caret line="14" column="92" selection-start-line="14" selection-start-column="92" selection-end-line="14" selection-end-column="92" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/openwipy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="239" lean-forward="true" selection-start-line="239" selection-end-line="239" />
+<<<<<<< HEAD
+        <state relative-caret-position="221">
+          <caret line="269" column="17" lean-forward="true" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
+=======
+        <state relative-caret-position="396">
+          <caret line="96" column="48" selection-start-line="96" selection-start-column="48" selection-end-line="96" selection-end-column="48" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+          </folding>
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/카카오톡 받은 파일/Untitled13.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="236">
+          <caret line="239" lean-forward="true" selection-start-line="239" selection-end-line="239" />
+=======
+        <state relative-caret-position="592">
+          <caret line="65" column="24" lean-forward="true" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+>>>>>>> 87da3d5d0f244f8f9fa5927e9ea1e8c262542289
+          <folding>
+            <element signature="e#29#48#0" expanded="true" />
           </folding>
         </state>
       </provider>
