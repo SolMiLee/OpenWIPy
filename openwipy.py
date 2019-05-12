@@ -2,16 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from pandas import DataFrame, Series
+from fractions import Fraction
 
-# global variable
-CURRENT_MEAN = None
-VOLTAGE_MEAN = None
-CURRENT_STD = None
-VOLTAGE_STD = None
-POWER_MEAN = None
-RESISTANCE_MEAN = None
-# SPECIMEN_NAME = None
-
+# area & cumulative num
 area = ['a00', 'a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09',
         'a10', 'a11', 'a12', 'a13', 'a14', 'a15', 'a16', 'a17', 'a18', 'a19',
         'a20', 'a21', 'a22', 'a23', 'a24', 'a25', 'a26', 'a27', 'a28', 'a29',
@@ -26,14 +19,43 @@ cumulative = ['c00', 'c01', 'c02', 'c03', 'c04', 'c05', 'c06', 'c07', 'c08', 'c0
 
 
 # data modify
-def read_csv_weld_data(path=str, col_nm=None):
-    raw_data = pd.read_csv(path, header=None, names=col_nm, index_col=False)
+def read_csv_weld_data(data_path, specimen_name, col_names,
+                       save_path=None, start=None, end=None):
+    '''
+    :param data_path:
+    :param specimen_name
+    :param col_names:
+    :param save_path:
+    :param start:
+    :param end:
+    :return:
+    '''
+
+    def start_end_time_data(data, start, end, col_time):
+        total_time = end - start
+        cond = ((data[col_time] >= start) &
+                (data[col_time] <= end))
+        data = data[cond]
+        print(data)
+        print(total_time)
+        return data
+
+    raw_data = pd.read_csv(data_path, header=None, names=col_names, index_col=False)
     raw_data_cleaning = raw_data.dropna(axis=1)
-    return raw_data_cleaning
+    print(raw_data_cleaning)
+
+    if start is None and end is None:
+        return raw_data_cleaning
+    else:
+        data = start_end_time_data(raw_data_cleaning, start, end, col_names[0])
+        data.to_csv(save_path + '\\' + specimen_name + '.csv')
+        print('Works Done\ndata saved')
+        return data
 
 
 def read_xl_weld_data(path=str):
     '''
+    nothing yet
     :param path:Excel Data Path String
     :return:None
     '''
@@ -42,68 +64,67 @@ def read_xl_weld_data(path=str):
 
 def specify_weld_data_interval(data, step=None):
     step_data = data.iloc[::step]
+    print(step_data)
     return step_data
 
 
-def start_end_time_data(data, start, end, col_time):
-    total_time = end - start
-    cond = ((data[col_time] >= start) &
-            (data[col_time] <= end))
-    data = data[cond]
-
-    return data, total_time
-
-
 # calculate value
-def calc_power_value_to_percent(percent=float, power_mean=POWER_MEAN,
-                                cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
-                                vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD):
+def calc_power_value_to_percent(percent, power_mean,
+                                cur_mean, cur_std,
+                                vol_mean, vol_std):
     x = np.linspace(-10, 10, 400, dtype=float)
-    y = (1 - percent) * power_mean / (vol_std * (x * cur_std + cur_mean)) - vol_mean / vol_std
+    y = float(1 - percent) * power_mean / float(vol_std * (x * cur_std + cur_mean)) - float(vol_mean / vol_std)
     return y
 
 
-def calc_resistance_value_to_percent(percent=float, resistance_mean=RESISTANCE_MEAN,
-                                     cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
-                                     vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD):
+def calc_resistance_value_to_percent(percent, resistance_mean,
+                                     cur_mean, cur_std,
+                                     vol_mean, vol_std):
     x = np.linspace(-10, 10, 400, dtype=float)
-    y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
+    y = float(1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
     return y
 
 
-def calc_power_line(percent=float, power_mean=POWER_MEAN,
-                    cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
-                    vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
-    y = (1 - percent) * power_mean / (vol_std * (x * cur_std + cur_mean)) - vol_mean / vol_std
+def calc_power_value(percent, x, power_mean,
+                     cur_mean, cur_std,
+                     vol_mean, vol_std):
+    y = float(1 - percent) * power_mean / float(vol_std * (x * cur_std + cur_mean)) - float(vol_mean / vol_std)
     return y
 
 
-def calc_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
-                         cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
-                         vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
-    y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
+def calc_resistance_value(percent, x, resistance_mean,
+                          cur_mean, cur_std,
+                          vol_mean, vol_std):
+    y = float(1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
     return y
 
 
-def calc_scoped_data(specimen_nm, percent=float):
+def calc_scoped_data(data, col_current_name, col_voltage_name,
+                     base_df_path, percent):
+    cur_mean = round(data[col_current_name].mean(), 4)
+    vol_mean = round(data[col_voltage_name].mean(), 4)
+    cur_std = round(data[col_current_name].std(), 4)
+    vol_std = round(data[col_voltage_name].std(), 4)
+    p_mean = round(cur_mean * vol_mean, 1)
+    r_mean = round(vol_mean / cur_mean, 4)
+
     pos_power = []
     neg_power = []
     pos_resistance = []
     neg_resistance = []
 
-    path = '..\\' + specimen_nm + '\\'
-    df = pd.read_csv(path + 'base_df.csv')
+    df = pd.read_csv(base_df_path + '\\' + 'base_df.csv')
 
     for nc in df['Normalized Current']:
-        pos_power.append(calc_power_line(-percent, nc))
-        neg_power.append(calc_power_line(percent, nc))
-        pos_resistance.append(calc_resistance_line(-percent, nc))
-        neg_resistance.append(calc_resistance_line(percent, nc))
+        pos_power.append(calc_power_value(-percent, nc, p_mean, cur_mean, cur_std, vol_mean, vol_std))
+        neg_power.append(calc_power_value(percent, nc, p_mean, cur_mean, cur_std, vol_mean, vol_std))
+        pos_resistance.append(calc_resistance_value(-percent, nc, r_mean, cur_mean, cur_std, vol_mean, vol_std))
+        neg_resistance.append(calc_resistance_value(percent, nc, r_mean, cur_mean, cur_std, vol_mean, vol_std))
 
     power_condition = ((df['Normalized Voltage'] >= neg_power) &
                        (df['Normalized Voltage'] <= pos_power))
     resistance_condition = ((df['Normalized Voltage'] >= neg_resistance) &
-                            (df['Normalized Votlage'] <= pos_resistance))
+                            (df['Normalized Voltage'] <= pos_resistance))
 
     power_data = df[power_condition]
     resistance_data = df[resistance_condition]
@@ -138,19 +159,15 @@ def plot_cur_vol(data, col_time, col_current, col_voltage):
     return plt.show()
 
 
-def plot_cur_vol_with_start_end_time(data, start, end, col_time, col_current, col_voltage, save_data=False):
-    d, t = start_end_time_data(data, start, end, col_time)
-    if save_data:
-        data.to_csv('data.csv')
-    plot_cur_vol(d, col_time, col_current, col_voltage)
-
-
-def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
+def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage,
+                                  percent=None, withline=False):
     '''
     :param data:
     :param col_time:
     :param col_current:
     :param col_voltage:
+    :param percent:
+    :param withline:
     :return: matplotlib.pyplot.show() Plot Current Voltage Distribution Map
     '''
     cur_mean = round(data[col_current].mean(), 4)
@@ -159,14 +176,6 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     vol_std = round(data[col_voltage].std(), 4)
     p_mean = round(cur_mean * vol_mean, 1)
     r_mean = round(vol_mean / cur_mean, 4)
-
-    global CURRENT_MEAN, VOLTAGE_MEAN, CURRENT_STD, VOLTAGE_STD, POWER_MEAN, RESISTANCE_MEAN
-    CURRENT_MEAN = cur_mean
-    VOLTAGE_MEAN = vol_mean
-    CURRENT_STD = cur_std
-    VOLTAGE_STD = vol_std
-    POWER_MEAN = p_mean
-    RESISTANCE_MEAN = r_mean
 
     watt = []
     resistance = []
@@ -195,49 +204,66 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
     plt.ylabel('Normalized Voltage', fontsize=15)
     plt.grid(ls='--')
 
+    if withline:
+        xr = np.linspace(-10, 10, 400, dtype=float)
+
+        power_y1 = calc_power_value_to_percent(-percent, p_mean, cur_mean, cur_std, vol_mean, vol_std)
+        power_y2 = calc_power_value_to_percent(percent, p_mean, cur_mean, cur_std, vol_mean, vol_std)
+        resistance_y1 = calc_resistance_value_to_percent(-percent, r_mean, cur_mean, cur_std, vol_mean, vol_std)
+        resistance_y2 = calc_resistance_value_to_percent(percent, r_mean, cur_mean, cur_std, vol_mean, vol_std)
+
+        power_line1, = plt.plot(xr, power_y1, 'k', linewidth=2)
+        power_line2, = plt.plot(xr, power_y2, 'k--', linewidth=2)
+        resistance_line1, = plt.plot(xr, resistance_y1, 'r:', linewidth=2)
+        resistance_line2, = plt.plot(xr, resistance_y2, 'r-.', linewidth=2)
+
+        plt.legend((power_line1, resistance_line1, power_line2, resistance_line2),
+                   ('P1 %.1f' % (p_mean * (1 + percent)),
+                    'R1 %.4f' % (r_mean * (1 + percent)),
+                    'P2 %.1f' % (p_mean * (1 - percent)),
+                    'R2 %.4f' % (r_mean * (1 - percent))),
+                   fontsize=15, loc='lower right')
+
     return plt.show()
 
 
-def plot_cur_vol_distribution_map_with_per_line(data, percent, col_time, col_current, col_voltage):
-    plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage)
-
-    xr = np.linspace(-10, 10, 400, dtype=float)
-
-    power_y1 = calc_power_value_to_percent(-percent)
-    power_y2 = calc_power_value_to_percent(percent)
-    resistance_y1 = calc_resistance_value_to_percent(-percent)
-    resistance_y2 = calc_resistance_value_to_percent(percent)
-
-    power_line1, = plt.plot(xr, power_y1, 'k', linewidth=5)
-    power_line2, = plt.plot(xr, power_y2, 'k--', linewidth=5)
-    resistance_line1, = plt.plot(xr, resistance_y1, 'r', linewidth=5)
-    resistance_line2, = plt.plot(xr, resistance_y2, 'r--', linewidth=5)
-
-    plt.legend((power_line1, resistance_line1, power_line2, resistance_line2),
-               ('P1 %.1f' % (POWER_MEAN * (1 + percent)),
-                'R1 %.4f' % (RESISTANCE_MEAN * (1 + percent)),
-                'P2 %.1f' % (POWER_MEAN * (1 - percent)),
-                'R2 %.4f' % (RESISTANCE_MEAN * (1 - percent))),
-               fonsize=15, loc='lower right')
-
-
 # make dataframe
-def make_base_dataframe(specimen_nm, data, watt, ohm, normalized_cur, normalized_vol):
+def make_base_dataframe(data, col_cur_name, col_vol_name, save_path):
+    cur_mean = round(data[col_cur_name].mean(), 4)
+    vol_mean = round(data[col_vol_name].mean(), 4)
+    cur_std = round(data[col_cur_name].std(), 4)
+    vol_std = round(data[col_vol_name].std(), 4)
+    p_mean = round(cur_mean * vol_mean, 1)
+    r_mean = round(vol_mean / cur_mean, 4)
+
+    watt = []
+    ohm = []
+    normalized_cur = []
+    normalized_vol = []
+
+    for i, v in zip(data[col_cur_name], data[col_vol_name]):
+        watt.append(round(i * v, 1))
+
+        try:
+            ohm.append(round(v / i, 4))
+        except ZeroDivisionError:
+            ohm.append(0)
+
+        normalized_cur.append((i - cur_mean) / cur_std)
+        normalized_vol.append((v - vol_mean) / vol_std)
+
     d = {'Time': data['Time'],
          'Current': round(data['Current'], 4), 'Voltage': round(data['Voltage'], 4),
          'Watt': watt, 'Resistance': ohm,
          'Normalized Current': normalized_cur, 'Normalized Voltage': normalized_vol}
-    path = '..\\' + specimen_nm + '\\'
     df = DataFrame(data=d, dtype=float)
-    df.to_csv(path + 'base_df.csv', index=False)
+    df.to_csv(save_path + '\\' + 'base_df.csv', index=False)
+    print('base_df saved')
     return df
 
 
-def make_distribution_count_dataframe(specimen_nm, data):
-    area_path = '..\\' + specimen_nm + '\\area\\'
-    cumulative_path = '..\\' + specimen_nm + '\\cumulative\\'
-
-    data_len = len(data)
+def make_distribution_count_dataframe(after_data, path, area_path, cumulative_path):
+    data_len = len(after_data)
 
     a_count = []
     c_count = []
@@ -245,8 +271,8 @@ def make_distribution_count_dataframe(specimen_nm, data):
     c_per = []
 
     for n in np.arange(50):
-        ad = pd.read_csv(area_path + area[n] + '.csv')
-        cd = pd.read_csv(cumulative_path + cumulative[n] + '.csv')
+        ad = pd.read_csv(area_path + '\\' + area[n] + '.csv')
+        cd = pd.read_csv(cumulative_path + '\\' + cumulative[n] + '.csv')
         a_count.append(len(ad))
         c_count.append(len(cd))
         a_per.append(round(len(ad) / data_len, 3))
@@ -255,36 +281,42 @@ def make_distribution_count_dataframe(specimen_nm, data):
     d = {'Area Count': a_count, 'Cumulative Count': c_count,
          'Area Per': a_per, 'Cumulative Per': c_per}
 
-    path = '..\\' + specimen_nm + '\\'
-
     df = DataFrame(data=d)
-    df.to_csv(path + 'distribution_df.csv')
+    df.to_csv(path + '\\' + 'distribution_df.csv')
+    print(df)
     return df
 
 
-def make_area_cumulated_df_to_csv(speciemn_nm, whichis=('area', 'cumulative')):
+def make_area_cumulated_df_to_csv(after_data, base_df_path,
+                                  area_folder_path, cumulative_folder_path,
+                                  whichis=('area', 'cumulative')):
     '''
-    :param speciemn_nm: Specimen name string
+    :param after_data:
+    :param area_folder_path:
+    :param cumulative_folder_path:
     :param whichis: 'area' or 'cumulative'
     :return: None
     '''
-    area_path = '..\\' + speciemn_nm + '\\area\\'
-    cumulative_path = '..\\' + speciemn_nm + '\\cumulative\\'
 
     pct = np.arange(0.02, 1.02, 0.02)
 
     for n in np.arange(0, 50):
-        if whichis == 'area':
-            df0 = calc_scoped_data(speciemn_nm, pct[0])
-            df0.to_csv(area_path + area[0] + '.csv', index=False)
+        if whichis == 'area' and n == 0:
+            df0 = calc_scoped_data(after_data, 'Current', 'Voltage', base_df_path, pct[0])
+            df0.to_csv(area_folder_path + '\\' + area[0] + '.csv', index=False)
+            print('a00 saved')
 
-            for n in np.arange(1, 50):
-                df = pd.concat([calc_scoped_data(speciemn_nm, pct[n]), calc_scoped_data(speciemn_nm, pct[n - 1])],
-                               sort=False).drop_duplicates(keep=False)
-                df.to_csv(area_path + area[n] + '.csv', index=False)
+        elif whichis == 'area' and n >= 1:
+            df = pd.concat([calc_scoped_data(after_data, 'Current', 'Voltage', base_df_path, pct[n]),
+                            calc_scoped_data(after_data, 'Current', 'Voltage', base_df_path, pct[n - 1])],
+                           sort=False).drop_duplicates(keep=False)
+            df.to_csv(area_folder_path + '\\' + area[n] + '.csv', index=False)
+            print('{0} saved'.format(area[n]))
 
         elif whichis == 'cumulative':
-            df = calc_scoped_data(speciemn_nm, pct[n])
-            df.to_csv(cumulative_path + cumulative[n] + '.csv', index=False)
+            df = calc_scoped_data(after_data, 'Current', 'Voltage', base_df_path, pct[n])
+            df.to_csv(cumulative_folder_path + '\\' + cumulative[n] + '.csv', index=False)
+            print('{0} saved'.format(cumulative[n]))
         else:
             print('Wrong Parameter')
+    print('Works Done')
