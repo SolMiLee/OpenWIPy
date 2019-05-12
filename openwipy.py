@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from pandas import DataFrame, Series
 
 # global variable
 CURRENT_MEAN = None
@@ -9,6 +10,19 @@ CURRENT_STD = None
 VOLTAGE_STD = None
 POWER_MEAN = None
 RESISTANCE_MEAN = None
+# SPECIMEN_NAME = None
+
+area = ['a00', 'a01', 'a02', 'a03', 'a04', 'a05', 'a06', 'a07', 'a08', 'a09',
+        'a10', 'a11', 'a12', 'a13', 'a14', 'a15', 'a16', 'a17', 'a18', 'a19',
+        'a20', 'a21', 'a22', 'a23', 'a24', 'a25', 'a26', 'a27', 'a28', 'a29',
+        'a30', 'a31', 'a32', 'a33', 'a34', 'a35', 'a36', 'a37', 'a38', 'a39',
+        'a40', 'a41', 'a42', 'a43', 'a44', 'a45', 'a46', 'a47', 'a48', 'a49']
+
+cumulative = ['c00', 'c01', 'c02', 'c03', 'c04', 'c05', 'c06', 'c07', 'c08', 'c09',
+              'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19',
+              'c20', 'c21', 'c22', 'c23', 'c24', 'c25', 'c26', 'c27', 'c28', 'c29',
+              'c30', 'c31', 'c32', 'c33', 'c34', 'c35', 'c36', 'c37', 'c38', 'c39',
+              'c40', 'c41', 'c42', 'c43', 'c44', 'c45', 'c46', 'c47', 'c48', 'c49']
 
 
 # data modify
@@ -19,6 +33,10 @@ def read_csv_weld_data(path=str, col_nm=None):
 
 
 def read_xl_weld_data(path=str):
+    '''
+    :param path:Excel Data Path String
+    :return:None
+    '''
     pass
 
 
@@ -60,15 +78,48 @@ def calc_power_line(percent=float, power_mean=POWER_MEAN,
     return y
 
 
-def clac_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
+def calc_resistance_line(percent=float, resistance_mean=RESISTANCE_MEAN,
                          cur_mean=CURRENT_MEAN, cur_std=CURRENT_STD,
                          vol_mean=VOLTAGE_MEAN, vol_std=VOLTAGE_STD, x=float):
     y = (1 - percent) * resistance_mean * (x * cur_std + cur_mean) / vol_std - vol_mean / vol_std
     return y
 
 
+def calc_scoped_data(specimen_nm, percent=float):
+    pos_power = []
+    neg_power = []
+    pos_resistance = []
+    neg_resistance = []
+
+    path = '..\\' + specimen_nm + '\\'
+    df = pd.read_csv(path + 'base_df.csv')
+
+    for nc in df['Normalized Current']:
+        pos_power.append(calc_power_line(-percent, nc))
+        neg_power.append(calc_power_line(percent, nc))
+        pos_resistance.append(calc_resistance_line(-percent, nc))
+        neg_resistance.append(calc_resistance_line(percent, nc))
+
+    power_condition = ((df['Normalized Voltage'] >= neg_power) &
+                       (df['Normalized Voltage'] <= pos_power))
+    resistance_condition = ((df['Normalized Voltage'] >= neg_resistance) &
+                            (df['Normalized Votlage'] <= pos_resistance))
+
+    power_data = df[power_condition]
+    resistance_data = df[resistance_condition]
+    power_and_resistance_data = pd.merge(power_data, resistance_data)
+    return power_and_resistance_data
+
+
 # plot data, analysis data
 def plot_cur_vol(data, col_time, col_current, col_voltage):
+    '''
+    :param data:
+    :param col_time:
+    :param col_current:
+    :param col_voltage:
+    :return:
+    '''
     pass_time = data[col_time]
     pass_current = data[col_current]
     pass_voltage = data[col_voltage]
@@ -95,6 +146,13 @@ def plot_cur_vol_with_start_end_time(data, start, end, col_time, col_current, co
 
 
 def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
+    '''
+    :param data:
+    :param col_time:
+    :param col_current:
+    :param col_voltage:
+    :return: matplotlib.pyplot.show() Plot Current Voltage Distribution Map
+    '''
     cur_mean = round(data[col_current].mean(), 4)
     vol_mean = round(data[col_voltage].mean(), 4)
     cur_std = round(data[col_current].std(), 4)
@@ -142,3 +200,72 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage):
 
 def plot_cur_vol_distribution_map_with_per_line():
     pass
+
+
+# make dataframe
+def make_base_dataframe(specimen_nm, data, watt, ohm, normalized_cur, normalized_vol):
+    d = {'Time': data['Time'],
+         'Current': round(data['Current'], 4), 'Voltage': round(data['Voltage'], 4),
+         'Watt': watt, 'Resistance': ohm,
+         'Normalized Current': normalized_cur, 'Normalized Voltage': normalized_vol}
+    path = '..\\' + specimen_nm + '\\'
+    df = DataFrame(data=d, dtype=float)
+    df.to_csv(path + 'base_df.csv', index=False)
+    return df
+
+
+def make_distribution_count_dataframe(specimen_nm, data):
+    area_path = '..\\' + specimen_nm + '\\area\\'
+    cumulative_path = '..\\' + specimen_nm + '\\cumulative\\'
+
+    data_len = len(data)
+
+    a_count = []
+    c_count = []
+    a_per = []
+    c_per = []
+
+    for n in np.arange(50):
+        ad = pd.read_csv(area_path + area[n] + '.csv')
+        cd = pd.read_csv(cumulative_path + cumulative[n] + '.csv')
+        a_count.append(len(ad))
+        c_count.append(len(cd))
+        a_per.append(round(len(ad) / data_len, 3))
+        c_per.append(round(len(cd) / data_len, 3))
+
+    d = {'Area Count': a_count, 'Cumulative Count': c_count,
+         'Area Per': a_per, 'Cumulative Per': c_per}
+
+    path = '..\\' + specimen_nm + '\\'
+
+    df = DataFrame(data=d)
+    df.to_csv(path + 'distribution_df.csv')
+    return df
+
+
+def make_area_cumulated_df_to_csv(speciemn_nm, whichis=('area', 'cumulative')):
+    '''
+    :param speciemn_nm: Specimen name string
+    :param whichis: 'area' or 'cumulative'
+    :return: None
+    '''
+    area_path = '..\\' + speciemn_nm + '\\area\\'
+    cumulative_path = '..\\' + speciemn_nm + '\\cumulative\\'
+
+    pct = np.arange(0.02, 1.02, 0.02)
+
+    for n in np.arange(0, 50):
+        if whichis == 'area':
+            df0 = calc_scoped_data(speciemn_nm, pct[0])
+            df0.to_csv(area_path + area[0] + '.csv', index=False)
+
+            for n in np.arange(1, 50):
+                df = pd.concat([calc_scoped_data(speciemn_nm, pct[n]), calc_scoped_data(speciemn_nm, pct[n - 1])],
+                               sort=False).drop_duplicates(keep=False)
+                df.to_csv(area_path + area[n] + '.csv', index=False)
+
+        elif whichis == 'cumulative':
+            df = calc_scoped_data(speciemn_nm, pct[n])
+            df.to_csv(cumulative_path + cumulative[n] + '.csv', index=False)
+        else:
+            print('Wrong Parameter')
