@@ -22,13 +22,14 @@ cumulative = ['c00', 'c01', 'c02', 'c03', 'c04', 'c05', 'c06', 'c07', 'c08', 'c0
 def read_csv_weld_data(data_path, specimen_name, col_names,
                        save_path=None, start=None, end=None):
     '''
-    :param data_path:
-    :param specimen_name
-    :param col_names:
-    :param save_path:
-    :param start:
-    :param end:
-    :return:
+    Reading CSV file (Weld raw data must include this columns -> 'Time', 'Current', 'Voltage')
+    :param data_path: data path
+    :param specimen_name: name of specimen
+    :param col_names: list type, basically use ['Time', 'Current', 'Voltage']
+    :param save_path: data saving path
+    :param start: starting time
+    :param end: end time
+    :return: if start and end are None return origin data dataframe or return trimed data
     '''
 
     def start_end_time_data(data, start, end, col_time):
@@ -40,7 +41,7 @@ def read_csv_weld_data(data_path, specimen_name, col_names,
         print(total_time)
         return data
 
-    raw_data = pd.read_csv(data_path, header=None, names=col_names, index_col=False)
+    raw_data = pd.read_csv(data_path + '\\' + specimen_name + '.csv', header=None, names=col_names, index_col=False)
     raw_data_cleaning = raw_data.dropna(axis=1)
     print(raw_data_cleaning)
 
@@ -49,15 +50,15 @@ def read_csv_weld_data(data_path, specimen_name, col_names,
     else:
         data = start_end_time_data(raw_data_cleaning, start, end, col_names[0])
         data.to_csv(save_path + '\\' + specimen_name + '.csv')
-        print('Works Done\ndata saved')
+        print('Works Done\n{0} saved\n'.format(specimen_name))
         return data
 
 
 def read_xl_weld_data(path=str):
     '''
     nothing yet
-    :param path:Excel Data Path String
-    :return:None
+    :param path: Excel Data Path String
+    :return: pass
     '''
     pass
 
@@ -133,17 +134,18 @@ def calc_scoped_data(data, col_current_name, col_voltage_name,
 
 
 # plot data, analysis data
-def plot_cur_vol(data, col_time, col_current, col_voltage):
+def plot_cur_vol(data, col_time_name, col_current_name, col_voltage_name):
     '''
-    :param data:
-    :param col_time:
-    :param col_current:
-    :param col_voltage:
-    :return:
+    plotting current & voltage wave from weld data
+    :param data: data file
+    :param col_time_name: column name str
+    :param col_current_name: column name str
+    :param col_voltage_name: column name str
+    :return: matplotlib.pyplot.show() plotting current voltage wave
     '''
-    pass_time = data[col_time]
-    pass_current = data[col_current]
-    pass_voltage = data[col_voltage]
+    pass_time = data[col_time_name]
+    pass_current = data[col_current_name]
+    pass_voltage = data[col_voltage_name]
 
     fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, figsize=(15, 6))
     ax[0].plot(pass_time, pass_current, linewidth=0.5)
@@ -159,21 +161,21 @@ def plot_cur_vol(data, col_time, col_current, col_voltage):
     return plt.show()
 
 
-def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage,
+def plot_cur_vol_distribution_map(data, col_time_name, col_current_name, col_voltage_name,
                                   percent=None, withline=False):
     '''
-    :param data:
-    :param col_time:
-    :param col_current:
-    :param col_voltage:
-    :param percent:
-    :param withline:
+    :param data: weld data
+    :param col_time_name: column name
+    :param col_current_name: column name
+    :param col_voltage_name: column name
+    :param percent: percent :)
+    :param withline: True -> including Power and Resistance line
     :return: matplotlib.pyplot.show() Plot Current Voltage Distribution Map
     '''
-    cur_mean = round(data[col_current].mean(), 4)
-    vol_mean = round(data[col_voltage].mean(), 4)
-    cur_std = round(data[col_current].std(), 4)
-    vol_std = round(data[col_voltage].std(), 4)
+    cur_mean = round(data[col_current_name].mean(), 4)
+    vol_mean = round(data[col_voltage_name].mean(), 4)
+    cur_std = round(data[col_current_name].std(), 4)
+    vol_std = round(data[col_voltage_name].std(), 4)
     p_mean = round(cur_mean * vol_mean, 1)
     r_mean = round(vol_mean / cur_mean, 4)
 
@@ -182,7 +184,7 @@ def plot_cur_vol_distribution_map(data, col_time, col_current, col_voltage,
     normalized_cur = []
     normalized_vol = []
 
-    for i, v in zip(data[col_current], data[col_voltage]):
+    for i, v in zip(data[col_current_name], data[col_voltage_name]):
         watt.append(round(i * v, 1))
 
         try:
@@ -294,7 +296,7 @@ def make_area_cumulated_df_to_csv(after_data, base_df_path,
     :param after_data:
     :param area_folder_path:
     :param cumulative_folder_path:
-    :param whichis: 'area' or 'cumulative'
+    :param whichis: choice 'area' or 'cumulative'
     :return: None
     '''
 
